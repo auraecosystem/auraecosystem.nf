@@ -512,3 +512,214 @@
 </div>
 
 <footer class="mt-24 border-t border-slate-800 bg-slate-950">
+    <div class="mx-auto max-w-7xl px-6 py-16">
+
+        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+
+            <div>
+
+                <h3 class="text-2xl font-bold text-gradient">
+                    {{ config('app.name', 'Web4') }}
+                </h3>
+
+                <p class="mt-4 text-slate-400">
+                    Modern Laravel platform for AI, blockchain, APIs, cloud services and developer tools.
+                </p>
+
+            </div>
+
+            <div>
+
+                <h4 class="mb-4 font-semibold">
+                    Platform
+                </h4>
+
+                <ul class="space-y-2 text-slate-400">
+
+                    <li><a href="{{ url('/') }}" class="hover:text-white">Home</a></li>
+                    <li><a href="{{ url('/docs') }}" class="hover:text-white">Documentation</a></li>
+                    <li><a href="{{ url('/api') }}" class="hover:text-white">API</a></li>
+                    <li><a href="{{ url('/downloads') }}" class="hover:text-white">Downloads</a></li>
+
+                </ul>
+
+            </div>
+
+            <div>
+
+                <h4 class="mb-4 font-semibold">
+                    Resources
+                </h4>
+
+                <ul class="space-y-2 text-slate-400">
+
+                    <li><a href="{{ url('/blog') }}">Blog</a></li>
+                    <li><a href="{{ url('/contact') }}">Contact</a></li>
+                    <li><a href="{{ url('/privacy') }}">Privacy</a></li>
+                    <li><a href="{{ url('/terms') }}">Terms</a></li>
+
+                </ul>
+
+            </div>
+
+            <div>
+
+                <h4 class="mb-4 font-semibold">
+                    Developer
+                </h4>
+
+                <p class="text-slate-400">
+
+                    Laravel {{ app()->version() }}
+
+                </p>
+
+                <p class="mt-2 text-slate-400">
+
+                    Environment:
+                    <span class="font-semibold">
+                        {{ app()->environment() }}
+                    </span>
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="mt-12 border-t border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+
+            <p class="text-slate-500">
+
+                © {{ date('Y') }}
+                {{ config('app.name') }}.
+                All rights reserved.
+
+            </p>
+
+            <div class="flex gap-6 text-slate-400">
+
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+                <a href="#">X</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<div
+    x-show="showCookie"
+    x-transition
+    class="fixed bottom-0 inset-x-0 z-50 border-t border-slate-700 bg-slate-900 p-4">
+
+    <div class="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4">
+
+        <p class="text-sm text-slate-300">
+
+            This site uses cookies to improve your experience.
+
+        </p>
+
+        <button
+            @click="acceptCookies()"
+            class="rounded-lg bg-blue-600 px-5 py-2">
+
+            Accept
+
+        </button>
+
+    </div>
+
+</div>
+
+<button
+    x-show="showBackTop"
+    @click="window.scrollTo({top:0,behavior:'smooth'})"
+    class="fixed bottom-6 left-6 rounded-full bg-blue-600 p-4 shadow-xl">
+
+    ↑
+
+</button>
+
+@stack('modals')
+@stack('scripts')
+@stack('footer')
+
+<script>
+
+function layout(){
+
+    return{
+
+        dark:localStorage.getItem('theme') !== 'light',
+
+        mobileOpen:false,
+
+        showCookie:!localStorage.getItem('cookies'),
+
+        showBackTop:false,
+
+        init(){
+
+            document.documentElement.classList.toggle(
+                'dark',
+                this.dark
+            );
+
+            window.addEventListener('scroll',()=>{
+
+                this.showBackTop=window.scrollY>300;
+
+            });
+
+        },
+
+        toggleTheme(){
+
+            this.dark=!this.dark;
+
+            document.documentElement.classList.toggle(
+                'dark',
+                this.dark
+            );
+
+            localStorage.setItem(
+                'theme',
+                this.dark?'dark':'light'
+            );
+
+        },
+
+        acceptCookies(){
+
+            localStorage.setItem('cookies','accepted');
+
+            this.showCookie=false;
+
+        }
+
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    if("serviceWorker" in navigator){
+
+        navigator.serviceWorker
+            .register("/service-worker.js")
+            .catch(console.error);
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>
