@@ -1,9 +1,152 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+/* Laravel */
+@source "../../app/**/*.php";
+@source "../../resources/**/*.blade.php";
+@source "../../resources/**/*.js";
+@source "../../resources/**/*.vue";
+@source "../../resources/**/*.tsx";
+@source "../../resources/**/*.jsx";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+
+/* ===========================
+   Web4 Theme
+=========================== */
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Fonts */
+    --font-sans: "Inter", "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+
+    /* Brand */
+    --color-primary: #2563eb;
+    --color-secondary: #7c3aed;
+    --color-success: #22c55e;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+    --color-info: #06b6d4;
+
+    /* Background */
+    --color-background: #0f172a;
+    --color-surface: #111827;
+    --color-card: #1e293b;
+
+    /* Text */
+    --color-text: #f8fafc;
+    --color-muted: #94a3b8;
+
+    /* Radius */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgb(0 0 0 / .15);
+    --shadow-md: 0 6px 20px rgb(0 0 0 / .18);
+    --shadow-lg: 0 10px 40px rgb(0 0 0 / .30);
+
+    /* Animations */
+    --ease-default: cubic-bezier(.4,0,.2,1);
+    --duration-fast: 150ms;
+    --duration-normal: 300ms;
+    --duration-slow: 600ms;
+}
+
+/* ===========================
+   Base
+=========================== */
+
+@layer base {
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-slate-950 text-slate-100 antialiased;
+        font-family: var(--font-sans);
+    }
+
+    a {
+        @apply transition-colors duration-300;
+    }
+
+    button {
+        @apply cursor-pointer;
+    }
+
+    img {
+        @apply max-w-full h-auto;
+    }
+
+}
+
+/* ===========================
+   Components
+=========================== */
+
+@layer components {
+
+    .btn {
+        @apply px-5 py-3 rounded-xl font-medium transition-all;
+    }
+
+    .btn-primary {
+        @apply bg-blue-600 text-white hover:bg-blue-700;
+    }
+
+    .btn-secondary {
+        @apply bg-violet-600 text-white hover:bg-violet-700;
+    }
+
+    .card {
+        @apply rounded-2xl bg-slate-900 border border-slate-800 p-6 shadow-lg;
+    }
+
+    .input {
+        @apply w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500;
+    }
+
+    .glass {
+        @apply bg-white/10 backdrop-blur-xl border border-white/10;
+    }
+
+}
+
+/* ===========================
+   Utilities
+=========================== */
+
+@layer utilities {
+
+    .text-gradient {
+        @apply bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent;
+    }
+
+    .bg-grid {
+        background-image:
+            linear-gradient(rgb(255 255 255 / .05) 1px, transparent 1px),
+            linear-gradient(90deg, rgb(255 255 255 / .05) 1px, transparent 1px);
+        background-size: 32px 32px;
+    }
+
+    .animate-fade {
+        animation: fade .4s ease;
+    }
+
+    @keyframes fade {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
 }
