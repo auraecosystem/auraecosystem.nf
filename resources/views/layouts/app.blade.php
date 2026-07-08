@@ -167,3 +167,202 @@
                 ☰
 
             </button>
+            @auth
+
+                <div class="relative" x-data="{ open: false }">
+
+                    <button
+                        @click="open = !open"
+                        class="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 hover:border-blue-500">
+
+                        <div class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        </div>
+
+                        <span class="hidden md:block">
+                            {{ auth()->user()->name }}
+                        </span>
+
+                        <svg class="h-4 w-4"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M19 9l-7 7-7-7"/>
+
+                        </svg>
+
+                    </button>
+
+                    <div
+                        x-show="open"
+                        @click.away="open=false"
+                        x-transition
+                        class="absolute right-0 mt-3 w-64 rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl">
+
+                        <div class="border-b border-slate-800 p-4">
+
+                            <p class="font-semibold">
+                                {{ auth()->user()->name }}
+                            </p>
+
+                            <p class="text-sm text-slate-400">
+                                {{ auth()->user()->email }}
+                            </p>
+
+                        </div>
+
+                        <a href="{{ route('dashboard') }}"
+                           class="block px-4 py-3 hover:bg-slate-800">
+                            Dashboard
+                        </a>
+
+                        <a href="{{ url('/profile') }}"
+                           class="block px-4 py-3 hover:bg-slate-800">
+                            Profile
+                        </a>
+
+                        <a href="{{ url('/settings') }}"
+                           class="block px-4 py-3 hover:bg-slate-800">
+                            Settings
+                        </a>
+
+                        <form
+                            action="{{ route('logout') }}"
+                            method="POST">
+
+                            @csrf
+
+                            <button
+                                class="w-full px-4 py-3 text-left hover:bg-red-900">
+
+                                Logout
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            @else
+
+                <a href="{{ route('login') }}"
+                   class="rounded-xl bg-slate-800 px-5 py-2 hover:bg-slate-700">
+
+                    Login
+
+                </a>
+
+                @if(Route::has('register'))
+
+                    <a href="{{ route('register') }}"
+                       class="rounded-xl bg-blue-600 px-5 py-2 hover:bg-blue-700">
+
+                        Register
+
+                    </a>
+
+                @endif
+
+            @endauth
+
+        </div>
+
+    </div>
+
+    <!-- Mobile Navigation -->
+
+    <div
+        x-show="mobileOpen"
+        x-transition
+        class="border-t border-slate-800 bg-slate-950 lg:hidden">
+
+        <nav class="space-y-2 p-6">
+
+            <a href="/" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Home</a>
+
+            <a href="/docs" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Documentation</a>
+
+            <a href="/api" class="block rounded-lg px-3 py-2 hover:bg-slate-800">API</a>
+
+            <a href="/dashboard" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Dashboard</a>
+
+            <a href="/downloads" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Downloads</a>
+
+            <a href="/contact" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Contact</a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+@if(View::hasSection('hero'))
+
+<section class="relative overflow-hidden">
+
+    @yield('hero')
+
+</section>
+
+@endif
+
+<div class="mx-auto max-w-7xl px-6 pt-8">
+
+    @hasSection('breadcrumbs')
+
+        <nav class="mb-6 text-sm text-slate-400">
+
+            @yield('breadcrumbs')
+
+        </nav>
+
+    @endif
+
+    @if(session('success'))
+
+        <div class="mb-6 rounded-xl border border-green-700 bg-green-900/20 p-4 text-green-300">
+
+            {{ session('success') }}
+
+        </div>
+
+    @endif
+
+    @if(session('error'))
+
+        <div class="mb-6 rounded-xl border border-red-700 bg-red-900/20 p-4 text-red-300">
+
+            {{ session('error') }}
+
+        </div>
+
+    @endif
+
+    @if(session('warning'))
+
+        <div class="mb-6 rounded-xl border border-yellow-700 bg-yellow-900/20 p-4 text-yellow-300">
+
+            {{ session('warning') }}
+
+        </div>
+
+    @endif
+
+    @if(session('info'))
+
+        <div class="mb-6 rounded-xl border border-blue-700 bg-blue-900/20 p-4 text-blue-300">
+
+            {{ session('info') }}
+
+        </div>
+
+    @endif
+
+    <main id="main-content"
+          class="min-h-screen">
