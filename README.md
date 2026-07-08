@@ -1,2 +1,1 @@
-
-https://github.com/auraecosystem.wiki
+[auraecosystem.wiki](https://auraecosystem.github.io/auraecosystem.nf/)
