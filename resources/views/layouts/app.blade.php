@@ -366,3 +366,149 @@
 
     <main id="main-content"
           class="min-h-screen">
+        <div class="grid gap-8 lg:grid-cols-12">
+
+            {{-- Optional Sidebar --}}
+            @hasSection('sidebar')
+
+                <aside class="hidden lg:col-span-3 lg:block">
+
+                    <div class="sticky top-24 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur">
+
+                        @yield('sidebar')
+
+                    </div>
+
+                </aside>
+
+                <section class="lg:col-span-9">
+
+                    @yield('content')
+
+                </section>
+
+            @else
+
+                <section class="col-span-12">
+
+                    @yield('content')
+
+                </section>
+
+            @endif
+
+        </div>
+
+    </main>
+
+</div>
+
+{{-- Floating AI Assistant --}}
+<button
+    x-data
+    @click="$dispatch('open-ai-assistant')"
+    class="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-xl transition hover:scale-110 hover:bg-blue-700"
+    title="AI Assistant">
+
+    🤖
+
+</button>
+
+{{-- WebSocket Status --}}
+<div
+    id="ws-status"
+    class="fixed bottom-24 right-6 z-40 rounded-xl border border-emerald-700 bg-emerald-900/70 px-4 py-2 text-sm text-emerald-300 backdrop-blur">
+
+    🟢 Connected
+
+</div>
+
+{{-- Global Toast Container --}}
+<div
+    id="toast-container"
+    class="pointer-events-none fixed right-6 top-24 z-[100] flex w-96 max-w-full flex-col gap-3">
+
+</div>
+
+{{-- Global Modal --}}
+<div
+    x-data="{ open:false }"
+    x-show="open"
+    x-transition
+    class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/70 backdrop-blur-sm">
+
+    <div
+        class="w-full max-w-2xl rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl">
+
+        <div class="mb-6 flex items-center justify-between">
+
+            <h2 class="text-xl font-semibold">
+
+                @yield('modal-title','Modal')
+
+            </h2>
+
+            <button
+                @click="open=false"
+                class="rounded-lg p-2 hover:bg-slate-800">
+
+                ✕
+
+            </button>
+
+        </div>
+
+        @yield('modal')
+
+    </div>
+
+</div>
+
+{{-- Loading Overlay --}}
+<div
+    id="page-loader"
+    class="fixed inset-0 z-[300] hidden items-center justify-center bg-slate-950/80 backdrop-blur">
+
+    <div class="flex flex-col items-center gap-5">
+
+        <div
+            class="h-16 w-16 animate-spin rounded-full border-4 border-blue-500 border-t-transparent">
+        </div>
+
+        <p class="text-slate-300">
+
+            Loading...
+
+        </p>
+
+    </div>
+
+</div>
+
+{{-- Command Palette --}}
+<div
+    x-data="{ open:false }"
+    @keydown.window.ctrl.k.prevent="open=true"
+    @keydown.window.escape="open=false"
+    x-show="open"
+    x-transition
+    class="fixed inset-0 z-[400] hidden bg-black/60 backdrop-blur">
+
+    <div class="mx-auto mt-24 w-full max-w-2xl rounded-2xl border border-slate-700 bg-slate-900 p-6">
+
+        <input
+            type="search"
+            placeholder="Search commands..."
+            class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 focus:border-blue-500 focus:outline-none">
+
+        <div class="mt-6 text-sm text-slate-400">
+
+            Press ESC to close.
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="mt-24 border-t border-slate-800 bg-slate-950">
